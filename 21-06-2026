@@ -1,0 +1,145 @@
+import java.util.*;
+
+class Solution {
+    public List<List<Integer>> threeSum(int[] nums) {
+        List<List<Integer>> result = new ArrayList<>();
+
+        Arrays.sort(nums);
+
+        for (int i = 0; i < nums.length - 2; i++) {
+            if (i > 0 && nums[i] == nums[i - 1]) {
+                continue;
+            }
+
+            int left = i + 1;
+            int right = nums.length - 1;
+
+            while (left < right) {
+                int sum = nums[i] + nums[left] + nums[right];
+
+                if (sum == 0) {
+                    result.add(Arrays.asList(nums[i], nums[left], nums[right]));
+                    while (left < right && nums[left] == nums[left + 1]) {
+                        left++;
+                    }
+                    while (left < right && nums[right] == nums[right - 1]) {
+                        right--;
+                    }
+
+                    left++;
+                    right--;
+                } else if (sum < 0) {
+                    left++;
+                } else {
+                    right--;
+                }
+            }
+        }
+
+        return result;
+    }
+}
+----------------------------------------------------------------------------------------------------------------
+class Solution {
+    public ListNode middleNode(ListNode head) {
+        ListNode slow = head;
+        ListNode fast = head;
+
+        while (fast != null && fast.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+
+        return slow;
+    }
+}
+---------------------------------------------------------------------------------------------------------------------------
+class Solution {
+    public void deleteNode(ListNode node) {
+        node.val = node.next.val;
+        node.next = node.next.next;
+    }
+}
+--------------------------------------------------------------------------------------------------------------------
+public class Solution {
+    public boolean hasCycle(ListNode head) {
+        ListNode slow = head;
+        ListNode fast = head;
+
+        while (fast != null && fast.next != null) {
+            slow = slow.next;          // move 1 step
+            fast = fast.next.next;     // move 2 steps
+
+            if (slow == fast) {
+                return true;           // cycle found
+            }
+        }
+
+        return false;                  // no cycle
+    }
+}
+-------------------------------------------------------------------------------------------------------------------------
+import java.util.Stack;
+
+class Solution {
+    public boolean isValid(String s) {
+        Stack<Character> stack = new Stack<>();
+
+        for (char ch : s.toCharArray()) {
+            if (ch == '(' || ch == '{' || ch == '[') {
+                stack.push(ch);
+            } else {
+                if (stack.isEmpty()) {
+                    return false;
+                }
+
+                char top = stack.pop();
+
+                if ((ch == ')' && top != '(') ||
+                    (ch == '}' && top != '{') ||
+                    (ch == ']' && top != '[')) {
+                    return false;
+                }
+            }
+        }
+
+        return stack.isEmpty();
+    }
+}
+-------------------------------------------------------------------------------------------------------------------
+public class UndoRedoDemo {
+    public static void main(String[] args) {
+        int[] undo = new int[10];
+        int[] redo = new int[10];
+
+        int utop = -1;
+        int rtop = -1;
+
+        // Push elements into undo stack
+        undo[++utop] = 10;
+        undo[++utop] = 20;
+        undo[++utop] = 30;
+
+        System.out.print("Undo Stack: ");
+        for (int i = utop; i >= 0; i--) {
+            System.out.print(undo[i] + " ");
+        }
+
+        // Undo operation
+        redo[++rtop] = undo[utop--];
+
+        System.out.print("\nAfter Undo: ");
+        for (int i = utop; i >= 0; i--) {
+            System.out.print(undo[i] + " ");
+        }
+
+        // Redo operation
+        undo[++utop] = redo[rtop--];
+
+        System.out.print("\nAfter Redo: ");
+        for (int i = utop; i >= 0; i--) {
+            System.out.print(undo[i] + " ");
+        }
+    }
+}
+---------------------------------------------------------------------------------------------------------------------
